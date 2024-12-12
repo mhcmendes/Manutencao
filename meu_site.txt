@@ -1,0 +1,11 @@
+/meu_site
+├── app.py
+├── templates
+│   ├── home.html
+│   ├── dashboard.html
+│   ├── setores.html
+│   ├── equipamentos.html
+│   └── login.html
+├── static
+│   └── style.css
+└── models.py

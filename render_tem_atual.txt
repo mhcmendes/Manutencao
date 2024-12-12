@@ -1,0 +1,65 @@
+from flask import Flask, render_template, redirect, url_for, request, session
+app = Flask(__name__)
+app.secret_key = 'sua_chave_secreta'
+
+# Simulação de banco de dados
+equipamentos = []
+
+# Página de Login
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        email = request.form['email']
+        password = request.form['password']
+        if email == 'josepaulo.sousa@jdemito.com.br' and password == '12330148':
+            session['user'] = email
+            return redirect(url_for('home'))
+        else:
+            return 'Login Inválido'
+    return render_template('login.html')
+
+# Página Home
+@app.route('/')
+def home():
+    if 'user' in session:
+        return render_template('home.html')
+    return redirect(url_for('login'))
+
+# Página Dashboard
+@app.route('/dashboard')
+def dashboard():
+    if 'user' in session:
+        return render_template('dashboard.html')
+    return redirect(url_for('login'))
+
+# Página Setores
+@app.route('/setores')
+def setores():
+    if 'user' in session:
+        return render_template('setores.html', equipamentos=equipamentos)
+    return redirect(url_for('login'))
+
+# Página Equipamentos (somente para o proprietário)
+@app.route('/equipamentos', methods=['GET', 'POST'])
+def equipamentos():
+    if 'user' in session and session['user'] == 'josepaulo.sousa@jdemito.com.br':
+        if request.method == 'POST':
+            descricao = request.form['descricao']
+            tag = request.form['tag']
+            codigo = request.form['codigo']
+            setor = request.form['setor']
+            conformidade = request.form['conformidade']
+            operacao = request.form['operacao']
+            equipamentos.append({
+                'descricao': descricao,
+                'tag': tag,
+                'codigo': codigo,
+                'setor': setor,
+                'conformidade': conformidade,
+                'operacao': operacao
+            })
+        return render_template('equipamentos.html', equipamentos=equipamentos)
+    return redirect(url_for('login'))
+
+if __name__ == '__main__':
+    app.run(debug=True)

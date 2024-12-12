@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Equipamentos</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Equipamentos</h1>
+    <a href="{{ url_for('home') }}">Home</a>
+    <form method="post">
+        <label for="descricao">Descrição:</label>
+        <input type="text" id="descricao" name="descricao">
+        <label for="tag">Tag:</label>
+        <input type="text" id="tag" name="tag">
+        <label for="codigo">Código:</label>
+        <input type="text" id="codigo" name="codigo">
+        <label for="setor">Setor:</label>
+        <input type="text" id="setor" name="setor">
+        <label for="conformidade">Conformidade:</label>
+        <select id="conformidade" name="conformidade">
+            <option value="Conforme">Conforme</option>
+            <option value="Não Conforme">Não Conforme</option>
+        </select>
+        <label for="operacao">Operação:</label>
+        <select id="operacao" name="operacao">
+            <option value="Operando">Operando</option>
+            <option value="Manutenção">Manutenção</option>
+            <option value="Stand-By">Stand-By</option>
+        </select>
+        <button type="submit">Adicionar Equipamento</button>
+    </form>
+    <h2>Lista de Equipamentos</h2>
+    <ul>
+        {% for equipamento in equipamentos %}
+            <li>{{ equipamento.descricao }} - {{ equipamento.tag }} - {{ equipamento.codigo }} - {{ equipamento.setor }} - {{ equipamento.conformidade }} - {{ equipamento.operacao }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
